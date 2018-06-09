@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Expense;
+use App\Weight;
 use Illuminate\Http\Request;
 
 class ExpenseController extends Controller
@@ -37,6 +38,12 @@ class ExpenseController extends Controller
     public function store(Request $request)
     {
         $expense = Expense::create($request->all());
+
+        /*Создаем новые пустые веса для новой статьи расходов*/
+        $emptyWeights = $this->getNewEmptyWeights();
+        $newWeight = array_merge(array('expense_id' => $expense->id), $emptyWeights);
+
+        $weight = Weight::create($newWeight);
 
         return redirect()->route('expenses.index')->with('success', 'Expense successful added!');
     }
@@ -87,5 +94,53 @@ class ExpenseController extends Controller
     {
         $expense->delete();
         return redirect('/expenses/')->with('success', 'Successfully deleted the Expense!');
+    }
+
+    protected function getNewEmptyWeights()
+    {
+        $minutes = [];
+        for ($i = 0; $i < 1440; $i++) {
+            $minutes[$i] = 0;
+        }
+        $mi = implode('/', $minutes);
+        unset($minutes);
+
+        $week = [];
+        for ($i = 0; $i < 7; $i++) {
+            $week[$i] = 0;
+        }
+        $we = implode('/', $week);
+        unset($week);
+
+        $month = [];
+        for ($i = 0; $i < 31; $i++) {
+            $month[$i] = 0;
+        }
+        $mo = implode('/', $month);
+        unset($month);
+
+        $ago = [];
+        for ($i = 0; $i < 732; $i++) {
+            $ago[$i] = 0;
+        }
+        $ag = implode('/', $ago);
+        unset($ago);
+
+        $sum = [];
+        for ($i = 0; $i < 5000; $i++) {
+            $sum[$i] = 0;
+        }
+        $su = implode('/', $sum);
+        unset($sum);
+
+        $result = [
+            'minute_of_day' => $mi,
+            'day_of_week' => $we,
+            'day_of_month' => $mo,
+            'day_ago' => $ag,
+            'sum' => $su,
+        ];
+
+        return $result;
     }
 }

@@ -10,4 +10,9 @@ class Expense extends Model
     protected $fillable = [
       'title',
     ];
+
+    public function weight()
+    {
+        return $this->hasOne('App\Weight', 'expense_id');
+    }
 }
