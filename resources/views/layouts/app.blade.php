@@ -8,6 +8,8 @@
     <title>Helper</title>
 </head>
 <body>
-<a href="/expenses/">Expenses</a>
+
+@yield('content')
+
 </body>
 </html>

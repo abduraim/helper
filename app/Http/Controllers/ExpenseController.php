@@ -14,7 +14,8 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        //
+        $expenses = Expense::all();
+        return view('expenses.index', ['expenses' => $expenses]);
     }
 
     /**
@@ -24,7 +25,7 @@ class ExpenseController extends Controller
      */
     public function create()
     {
-        //
+        return view('expenses.create');
     }
 
     /**
@@ -35,7 +36,9 @@ class ExpenseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $expense = Expense::create($request->all());
+
+        return redirect()->route('expenses.index')->with('success', 'Expense successful added!');
     }
 
     /**
@@ -46,7 +49,7 @@ class ExpenseController extends Controller
      */
     public function show(Expense $expense)
     {
-        //
+        return view('expenses.show', ['expense' => $expense]);
     }
 
     /**
@@ -57,7 +60,7 @@ class ExpenseController extends Controller
      */
     public function edit(Expense $expense)
     {
-        //
+        return view('expenses.edit', compact('expense'));
     }
 
     /**
@@ -69,7 +72,9 @@ class ExpenseController extends Controller
      */
     public function update(Request $request, Expense $expense)
     {
-        //
+        $expense->update($request->all());
+
+        return redirect('/expenses/' . $expense->id)->with('success', 'Expense success update!');
     }
 
     /**
@@ -80,6 +85,7 @@ class ExpenseController extends Controller
      */
     public function destroy(Expense $expense)
     {
-        //
+        $expense->delete();
+        return redirect('/expenses/')->with('success', 'Successfully deleted the Expense!');
     }
 }
