@@ -16,3 +16,5 @@ Route::get('/', function () {
 });
 
 Route::resource('expenses', 'ExpenseController');
+
+Route::resource('spendings', 'SpendingController');

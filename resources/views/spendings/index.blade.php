@@ -7,12 +7,8 @@
 
     <br>
 
-    <a href="/spendings/">Last Spending</a><br>
-
-    <br>
-
-    @foreach($expenses as $expense)
-        <a href="/expenses/{{ $expense->id }}">{{ $expense->title }}</a>
+    @foreach($spendings as $spending)
+        <a href="/spendings/{{ $spending->id }}">{{ $spending->created_at }} - {{ $spending->expense['title'] }}</a><br>
     @endforeach
 
 @endsection

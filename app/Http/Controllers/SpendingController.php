@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Expense;
 use App\Spending;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class SpendingController extends Controller
 {
@@ -14,7 +16,9 @@ class SpendingController extends Controller
      */
     public function index()
     {
-        //
+        $spendings = Spending::with('expense')->orderBy('created_at', 'desc')->get();
+
+        return view('spendings.index', ['spendings' => $spendings]);
     }
 
     /**
@@ -24,7 +28,8 @@ class SpendingController extends Controller
      */
     public function create()
     {
-        //
+        $expenses = Expense::all();
+        return view('spendings.create', ['expenses' => $expenses]);
     }
 
     /**
@@ -35,7 +40,9 @@ class SpendingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $spending = Spending::create($request->all());
+
+        return redirect()->route('expenses.index')->with('success', 'Spending successful added!');
     }
 
     /**
@@ -46,7 +53,8 @@ class SpendingController extends Controller
      */
     public function show(Spending $spending)
     {
-        //
+        $expense = $spending->expense;
+        return view('spendings.show', ['spending' => $spending, 'expense' => $expense]);
     }
 
     /**

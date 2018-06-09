@@ -15,4 +15,9 @@ class Expense extends Model
     {
         return $this->hasOne('App\Weight', 'expense_id');
     }
+
+    public function spendings()
+    {
+        return $this->hasMany('App\Spending', 'expense_id');
+    }
 }
