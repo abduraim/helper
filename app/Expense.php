@@ -11,7 +11,7 @@ class Expense extends Model
       'title',
     ];
 
-    public function weight()
+    public function weights()
     {
         return $this->hasOne('App\Weight', 'expense_id');
     }
